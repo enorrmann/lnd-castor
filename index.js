@@ -38,19 +38,20 @@ var macaroonCreds = grpc.credentials.createFromMetadataGenerator(function (args,
 var creds = grpc.credentials.combineChannelCredentials(sslCreds, macaroonCreds);
 var lightning = new lnrpc.Lightning('localhost:10009', creds);
 var request = {
-    //add_index: 1
+    add_index: 1
 };
-var call = lightning.subscribeInvoices(request);
-call.on('data', function (response) {
-    // A response was received from the server.
-    console.log(response);
-});
-call.on('status', function (status) {
-    console.log(status);
-});
-call.on('end', function () {
-    console.log("end");
-});
 
+io.on('connection', function (socket) {
+    console.log("connected");
+    var call = lightning.subscribeInvoices(request);
+    call.on('data', function (response) {
+        io.emit('message', response);
+    });
+    call.on('status', function (status) {
+    });
+    call.on('end', function () {
+
+    });
+});
 
 http.listen(3000);
