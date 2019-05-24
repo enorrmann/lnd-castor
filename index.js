@@ -41,7 +41,7 @@ var macaroonCreds = grpc.credentials.createFromMetadataGenerator(function (args,
 var creds = grpc.credentials.combineChannelCredentials(sslCreds, macaroonCreds);
 var lightning = new lnrpc.Lightning('localhost:10009', creds);
 var request = {
-    add_index: 1
+    //add_index: 1
 };
 
 //io.on('connection', function (socket) {
