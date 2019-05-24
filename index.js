@@ -9,7 +9,7 @@ var lnrpc = grpc.load('rpc.proto').lnrpc;
 var html_dir = "./public_html";
 var path = require('path');
 const io = require('socket.io')(http);
-const network = 'testnet';
+const network = 'mainnet';
 
 app.get('/*.js', function (req, res) {
     res.sendFile(path.join(__dirname, html_dir, req.url));
