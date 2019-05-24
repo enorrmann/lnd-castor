@@ -1,3 +1,5 @@
+const HOME_DIR = require('os').homedir();
+const LND_DIR = HOME_DIR+'/.lnd';
 const express = require('express');
 const app = express();
 const http = require('http').Server(app);
@@ -25,7 +27,7 @@ app.get('/',
         });
 
 
-const LND_DIR = '/home/emilio/.lnd';
+
 process.env.GRPC_SSL_CIPHER_SUITES = 'HIGH+ECDSA';
 var lndCert = fs.readFileSync(LND_DIR + '/tls.cert');
 var sslCreds = grpc.credentials.createSsl(lndCert);
@@ -41,7 +43,7 @@ var request = {
     add_index: 1
 };
 
-io.on('connection', function (socket) {
+//io.on('connection', function (socket) {
     console.log("connected");
     var call = lightning.subscribeInvoices(request);
     call.on('data', function (response) {
@@ -52,6 +54,6 @@ io.on('connection', function (socket) {
     call.on('end', function () {
 
     });
-});
+//});
 
-http.listen(3000);
+http.listen(8280);
