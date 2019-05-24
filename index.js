@@ -24,21 +24,26 @@ app.get('/',
 
 
 var lightning = require('./lnd.js');
-var request = {
-    //add_index: 1
-};
 
-//io.on('connection', function (socket) {
+io.on('connection', function (socket) {
     console.log("connected");
-    var call = lightning.subscribeInvoices(request);
-    call.on('data', function (response) {
-        io.emit('message', response);
-    });
-    call.on('status', function (status) {
-    });
-    call.on('end', function () {
+    socket.on('mess_from_web', function (data) {
+        lightning.addInvoice(data.message, function (err, response) {
+            socket.emit('payment_request', {payment_request: response.payment_request});
+        });
 
     });
-//});
+});
 
+/*var call = lightning.subscribeInvoices(request);
+ call.on('data', function (response) {
+ //io.emit('message', response);
+ });
+ call.on('status', function (status) {
+ });
+ call.on('end', function () {
+ 
+ });
+ 
+ */
 http.listen(8280);
